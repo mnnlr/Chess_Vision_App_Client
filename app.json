@@ -6,6 +6,11 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "fonts": [
+      {
+        "Holtwood One SC": "./assets/fonts/HoltwoodOneSC-Regular.ttf"
+      }
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
