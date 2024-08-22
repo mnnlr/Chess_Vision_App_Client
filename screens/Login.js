@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import WaveInput from '../componenet/WaveInput';
+import { useNavigation } from '@react-navigation/native';
 const Login = () => {
+  const navigation = useNavigation();
     return (
         <View style={styles.container}>
           <View style={styles.gradientContainer}>
@@ -16,7 +18,7 @@ const Login = () => {
               <WaveInput label="Email" />
               <WaveInput label="Password" />
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
               <Text style={styles.buttonText}>Sign in</Text>
             </TouchableOpacity>
           </View>
