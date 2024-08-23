@@ -16,7 +16,7 @@ import Background from './chessBoard/Background';
 import Board from './chessBoard/Board';
 import Piece from './chessBoard/Piece';
 import ProfileScreen from './screens/ProfileScreen';
-
+import ChessGame from './screens/ChessGame';
 
 
 
@@ -30,7 +30,7 @@ function AppNavigator() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Register">
+        <Stack.Navigator initialRouteName="Game">
           <Stack.Screen name="Home" options={{ headerShown: false }} component={Home} />
           <Stack.Screen name="Login" options={{ headerShown: false }} component={Login} />
           <Stack.Screen name="Register" options={{ headerShown: false }} component={Register} />
@@ -38,7 +38,7 @@ function AppNavigator() {
           <Stack.Screen name='Setting' component={SettingsScreen} options={{ headerShown: false }} />
           <Stack.Screen name='Theame' component={Theame} options={{ headerShown: false }} />
           <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }} />
-          <Stack.Screen name='Game' component={GameScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Game' component={ChessGame} options={{ headerShown: false }} />
           <Stack.Screen name='PersonAddSection' component={PersonAddScreen} options={{ headerShown: false }} />
           {/* <Stack.Screen name='Background' component={Background}/>
         <Stack.Screen name='Board' component={Board}/>
