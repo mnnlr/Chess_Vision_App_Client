@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, Modal, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-
+import { useSelector } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
+
 const Home = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
 
   const handleModal = () => {
     setModalVisible(!modalVisible);
@@ -52,18 +54,18 @@ const Home = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: isDarkTheme ? '#000' : '#fff' }]}>
       <Image source={require('../assets/CurveImage.png')} style={styles.topbarImage} />
       <View style={styles.profileContainer}>
         <Image source={require('../assets/ProfilePic.jpeg')} style={styles.profilePic} />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>John Doe</Text>
-          <Pressable style={styles.proButton}>
-            <Text style={styles.proText}>Pro</Text>
+          <Text style={[styles.name, { color: isDarkTheme ? '#fff' : '#000' }]}>John Doe</Text>
+          <Pressable style={[styles.proButton, { backgroundColor: isDarkTheme ? '#333' : '#95D2B3', borderColor: isDarkTheme ? '#222' : '#D8EFD3' }]}>
+            <Text style={[styles.proText, { color: isDarkTheme ? '#fff' : '#000' }]}>Pro</Text>
           </Pressable>
         </View>
-        <Pressable style={styles.menuCircle} onPress={handleModal}>
-          <Image source={require('../assets/Menu Vertical.png')} style={styles.menuIcon} />
+        <Pressable style={[styles.menuCircle, { borderColor: isDarkTheme ? '#fff' : '#000' }]} onPress={handleModal}>
+          <Image source={require('../assets/Menu Vertical.png')} style={[styles.menuIcon, { tintColor: isDarkTheme ? '#fff' : '#000' }]} />
         </Pressable>
       </View>
       {/* MenuItem Modal */}
@@ -73,42 +75,34 @@ const Home = () => {
         onRequestClose={handleModal}
         animationType='fade'>
         <Pressable style={styles.modalOverlay} onPress={handleModal}>
-          <View style={[styles.modalContainer, styles.positionedModal]}>
+          <View style={[styles.modalContainer, styles.positionedModal, { backgroundColor: isDarkTheme ? '#333' : '#fff' }]}>
             <Pressable style={styles.menuItem} onPress={handleSettingScreen}>
-              <Text style={styles.menuText}>Settings</Text>
+              <Text style={[styles.menuText, { color: isDarkTheme ? '#fff' : '#000' }]}>Settings</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={handleProfileSection}>
-              <Text style={styles.menuText}>Profile</Text>
+              <Text style={[styles.menuText, { color: isDarkTheme ? '#fff' : '#000' }]}>Profile</Text>
             </Pressable>
-            <Pressable style={styles.menuItem} onPress={handleLogout}>
-              <Text style={styles.menuText}>LogOut</Text>
+            <Pressable onPress={() => navigation.navigate('Login')} style={styles.menuItem}>
+              <Text style={[styles.menuText, { color: isDarkTheme ? '#fff' : '#000' }]}>LogOut</Text>
             </Pressable>
           </View>
         </Pressable>
-
       </Modal>
       <View style={styles.kingContainer}>
-        <Text style={styles.kingText}>BE THE{"\n"}KING OF{"\n"}CHESS</Text>
+        <Text style={[styles.kingText, { color: isDarkTheme ? '#fff' : '#000' }]}>BE THE{"\n"}KING OF{"\n"}CHESS</Text>
         <Image source={require('../assets/ChessIcon.png')} style={styles.chessIcon} />
       </View>
       <View style={styles.textContainer}>
-        <Pressable style={styles.box} onPress={handleGameScreen}>
+        <Pressable style={[styles.box, { backgroundColor: isDarkTheme ? '#444' : '#55AD9B' }]} onPress={handleGameScreen}>
           <Image source={require('../assets/EarthPlanet.png')} style={styles.earthPlanetImage} />
-          <Text style={styles.friendText}>Play with{'\n'}Friends</Text>
-          <Text style={styles.randomText}>Choose random{'\n'}friends and play</Text>
+          <Text style={[styles.friendText, { color: isDarkTheme ? '#fff' : '#000' }]}>Play with{'\n'}Friends</Text>
+          <Text style={[styles.randomText, { color: isDarkTheme ? '#fff' : '#000' }]}>Choose random{'\n'}friends and play</Text>
         </Pressable>
-        <Pressable onPress={handlePersonAddSection}>
-        <ImageBackground
-          source={require('../assets/ChessPic1.jpeg')}
-          style={styles.box}
-          imageStyle={{ opacity: 0.2 }}
-        >
+        <Pressable style={[styles.box, { backgroundColor: isDarkTheme ? '#444' : '#55AD9B' }]} onPress={handlePersonAddSection}>
           <Image source={require('../assets/Vector.png')} style={styles.earthPlanetImage} />
-          <Text style={styles.friendText}>Play with{'\n'}Computer</Text>
-          <Text style={styles.randomText}>Choose level and{'\n'}Play with computer</Text>
-        </ImageBackground>
+          <Text style={[styles.friendText, { color: isDarkTheme ? '#fff' : '#000' }]}>Play with{'\n'}Friends</Text>
+          <Text style={[styles.randomText, { color: isDarkTheme ? '#fff' : '#000' }]}>Choose random{'\n'}friends and play</Text>
         </Pressable>
-
       </View>
       <View style={styles.curveImageContainer}>
         <Image source={require('../assets/CurveImage1.png')} style={styles.curveImage1} />
@@ -121,7 +115,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   topbarImage: {
     width: '100%',
@@ -129,11 +123,10 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     position: 'absolute',
-    top: width * 0.120,
+    top: width * 0.12,
     left: '7%',
     flexDirection: 'row',
     alignItems: 'center',
-
   },
   profilePic: {
     width: width * 0.20,
@@ -148,22 +141,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
     lineHeight: width * 0.065,
-    color: '#fff',
   },
   proButton: {
     marginTop: width * 0.02,
-    backgroundColor: '#95D2B3',
     width: width * 0.22,
     height: width * 0.06,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#D8EFD3',
   },
   proText: {
     fontSize: 15,
-    color: '#000',
     fontWeight: '400',
     textAlign: 'center',
   },
@@ -175,79 +164,67 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#000',
   },
   menuIcon: {
     width: width * 0.045,
     height: width * 0.045,
-    tintColor: '#000',
   },
   kingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: width * 0.10,
     paddingHorizontal: '7%',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   kingText: {
     fontSize: 35,
     fontWeight: '700',
     lineHeight: 52,
-    color: '#000',
-    marginRight: width * 0.03,
   },
   chessIcon: {
-    width: 122,
-    height: 145,
-    resizeMode: 'contain'
+    width: width * 0.3,
+    height: width * 0.4,
+    resizeMode: 'contain',
   },
   textContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: width * 0.20,
-    paddingHorizontal: '7%'
+    paddingHorizontal: '7%',
   },
   box: {
-    width: 125,
-    height: 170,
-    backgroundColor: '#55AD9B',
-    borderRadius: 19
+    width: width * 0.3,
+    height: height * 0.2,
+    borderRadius: 19,
+    padding: width * 0.03,
   },
   earthPlanetImage: {
-    width: 17,
-    height: 24,
+    width: width * 0.05,
+    height: height * 0.03,
     resizeMode: 'contain',
-    marginLeft: width * 0.03,
-    marginTop: width * 0.02
   },
   friendText: {
-    color: '#fff',
-    fontSize: 20,
+    fontSize: width * 0.05,
     fontWeight: '400',
-    marginLeft: width * 0.03,
-    marginTop: width * 0.02
+    marginTop: width * 0.02,
   },
   randomText: {
-    color: '#fff',
-    fontSize: 12,
+    fontSize: width * 0.03,
     fontWeight: '400',
-    lineHeight: 14,
-    marginLeft: width * 0.03,
-    marginTop: width * 0.02
+    marginTop: width * 0.02,
   },
   curveImageContainer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
-    width: '93%',
+    width: '100%',
     height: height * 0.2,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'transparent',
   },
   curveImage1: {
     width: '100%',
-    height: '97%',
+    height: '100%',
     resizeMode: 'cover',
   },
   modalOverlay: {
@@ -259,23 +236,23 @@ const styles = StyleSheet.create({
     top: width * 0.20,
     right: '3%',
   },
-  modalContainer: {
-    width: width * 0.4,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  menuItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: '100%',
-    // alignItems: 'center',
-  },
-  menuText: {
-    fontSize: 18,
-    color: '#000',
-  },
-});
 
-
+    modalContainer: {
+      width: width * 0.4,
+      borderRadius: 10,
+      paddingVertical: width * 0.03,
+      paddingHorizontal: width * 0.02,
+      elevation: 5,
+    },
+    menuItem: {
+      paddingVertical: width * 0.02,
+      paddingHorizontal: width * 0.03,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ddd',
+    },
+    menuText: {
+      fontSize: width * 0.04,
+      fontWeight: '500',
+    },
+  });
+  

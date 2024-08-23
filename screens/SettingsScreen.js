@@ -1,6 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
+
 import React from "react";
 import { Dimensions, StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
@@ -12,29 +14,31 @@ const SettingsScreen = () => {
     };
 
    
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
+
     return (
-        <View style={styles.container}>
-            <View style={styles.firstContainer}>
+        <View style={[styles.container, { backgroundColor: isDarkTheme ? '#000' : '#F5F5F5' }]}>
+            <View style={[styles.firstContainer, { backgroundColor: isDarkTheme ? '#333' : '#55AD9B' }]}>
                 <View style={styles.arrowContainer}>
-                    <Pressable style={styles.circle} onPress={handleArrow}>
+                    <Pressable onPress={() => navigation.goBack()} style={[styles.circle, { borderColor: isDarkTheme ? '#333' : '#fff' }]}>
                         <Image source={require('../assets/Arrowback.png')} style={styles.arrowIcon} />
                     </Pressable>
-                    <Text style={styles.settingsText}>Settings</Text>
+                    <Text style={[styles.settingsText, { color: isDarkTheme ? '#fff' : '#000' }]}>Settings</Text>
                 </View>
             </View>
             <View style={styles.secondContainer}>
-                <Pressable style={styles.menuItemContainer}>
-                    <Text style={styles.menuItemText}>Theme</Text>
+                <Pressable onPress={() => navigation.navigate('Theame')} style={styles.menuItemContainer}>
+                    <Text style={[styles.menuItemText, { color: isDarkTheme ? '#fff' : '#000' }]}>Theme</Text>
                 </Pressable>
-                <View style={styles.horizontalLine} />
+                <View style={[styles.horizontalLine, { borderColor: isDarkTheme ? '#555' : '#CACACA' }]} />
                 <Pressable style={styles.menuItemContainer}>
-                    <Text style={styles.menuItemText}>Privacy Policy</Text>
+                    <Text style={[styles.menuItemText, { color: isDarkTheme ? '#fff' : '#000' }]}>Privacy Policy</Text>
                 </Pressable>
-                <View style={styles.horizontalLine} />
+                <View style={[styles.horizontalLine, { borderColor: isDarkTheme ? '#555' : '#CACACA' }]} />
                 <Pressable style={styles.menuItemContainer}>
-                    <Text style={styles.menuItemText}>Contact us</Text>
+                    <Text style={[styles.menuItemText, { color: isDarkTheme ? '#fff' : '#000' }]}>Contact us</Text>
                 </Pressable>
-                <View style={styles.horizontalLine} />
+                <View style={[styles.horizontalLine, { borderColor: isDarkTheme ? '#555' : '#CACACA' }]} />
             </View>
         </View>
     );
@@ -45,12 +49,10 @@ export default SettingsScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5F5F5', 
     },
     firstContainer: {
         width: '100%',
         height: height * 0.12, 
-        backgroundColor: '#55AD9B',
         justifyContent: 'center',
     },
     secondContainer: {
@@ -72,7 +74,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#fff',
     },
     arrowIcon: {
         width: '60%',
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: '400',
         lineHeight: 32,
-        color: '#fff',
     },
     menuItemContainer: {
         paddingVertical: '3%',
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     },
     horizontalLine: {
         borderWidth: 1,
-        borderColor: '#CACACA',
         width: '100%', 
     },
 });
