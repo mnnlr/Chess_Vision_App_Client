@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, Modal } from 'react-native'
+import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, Modal, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,9 +12,45 @@ const Home = () => {
     setModalVisible(!modalVisible);
   };
 
+
+  //Setting Screen
   const handleSettingScreen = () => {
     navigation.navigate('Setting');
   }
+
+
+  //logOut 
+  const handleLogout = () => {
+    Alert.alert(
+      "Logout",
+      "Are you sure you want to log out?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Ok",
+          onPress: () => navigation.navigate('Login')
+        }
+      ]
+    );
+  };
+
+  //Profile Screen
+  const handleProfileSection = () => {
+    navigation.navigate('Profile');
+  }
+
+  const handleGameScreen = ()=>{
+    navigation.navigate("Game");
+  };
+
+  const handlePersonAddSection = ()=>{
+    navigation.navigate('PersonAddSection');
+  }
+
   return (
     <View style={styles.container}>
       <Image source={require('../assets/CurveImage.png')} style={styles.topbarImage} />
@@ -41,10 +77,10 @@ const Home = () => {
             <Pressable style={styles.menuItem} onPress={handleSettingScreen}>
               <Text style={styles.menuText}>Settings</Text>
             </Pressable>
-            <Pressable style={styles.menuItem}>
+            <Pressable style={styles.menuItem} onPress={handleProfileSection}>
               <Text style={styles.menuText}>Profile</Text>
             </Pressable>
-            <Pressable style={styles.menuItem}>
+            <Pressable style={styles.menuItem} onPress={handleLogout}>
               <Text style={styles.menuText}>LogOut</Text>
             </Pressable>
           </View>
@@ -56,11 +92,12 @@ const Home = () => {
         <Image source={require('../assets/ChessIcon.png')} style={styles.chessIcon} />
       </View>
       <View style={styles.textContainer}>
-        <View style={styles.box}>
+        <Pressable style={styles.box} onPress={handleGameScreen}>
           <Image source={require('../assets/EarthPlanet.png')} style={styles.earthPlanetImage} />
           <Text style={styles.friendText}>Play with{'\n'}Friends</Text>
           <Text style={styles.randomText}>Choose random{'\n'}friends and play</Text>
-        </View>
+        </Pressable>
+        <Pressable onPress={handlePersonAddSection}>
         <ImageBackground
           source={require('../assets/ChessPic1.jpeg')}
           style={styles.box}
@@ -70,6 +107,7 @@ const Home = () => {
           <Text style={styles.friendText}>Play with{'\n'}Computer</Text>
           <Text style={styles.randomText}>Choose level and{'\n'}Play with computer</Text>
         </ImageBackground>
+        </Pressable>
 
       </View>
       <View style={styles.curveImageContainer}>

@@ -1,16 +1,24 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Dimensions, StyleSheet, Text, View, Image, Pressable } from "react-native";
 
 const { width, height } = Dimensions.get('window');
 
 const SettingsScreen = () => {
+    const navigation = useNavigation();
+
+    const handleArrow = ()=>{
+       navigation.goBack();
+    };
+
+   
     return (
         <View style={styles.container}>
             <View style={styles.firstContainer}>
                 <View style={styles.arrowContainer}>
-                    <View style={styles.circle}>
+                    <Pressable style={styles.circle} onPress={handleArrow}>
                         <Image source={require('../assets/Arrowback.png')} style={styles.arrowIcon} />
-                    </View>
+                    </Pressable>
                     <Text style={styles.settingsText}>Settings</Text>
                 </View>
             </View>
