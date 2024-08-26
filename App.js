@@ -16,6 +16,8 @@ import Background from './chessBoard/Background';
 import Board from './chessBoard/Board';
 import Piece from './chessBoard/Piece';
 import ProfileScreen from './screens/ProfileScreen';
+import ContactusScreen from './screens/ContactusScreen';
+import PrivacyPolicyScreen from './screens/PrivacyPolicyScreen';
 
 
 
@@ -40,9 +42,11 @@ function AppNavigator() {
           <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name='Game' component={GameScreen} options={{ headerShown: false }} />
           <Stack.Screen name='PersonAddSection' component={PersonAddScreen} options={{ headerShown: false }} />
-          {/* <Stack.Screen name='Background' component={Background}/>
-        <Stack.Screen name='Board' component={Board}/>
-        <Stack.Screen name='Piece' component={Piece}/> */}
+          <Stack.Screen name='Background' component={Background} />
+          <Stack.Screen name='Board' component={Board} />
+          <Stack.Screen name='Piece' component={Piece} />
+          <Stack.Screen name='Contact' component={ContactusScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='PrivacyPolicy' component={PrivacyPolicyScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
         <StatusBar style={isDarkTheme ? 'light' : 'dark'} />

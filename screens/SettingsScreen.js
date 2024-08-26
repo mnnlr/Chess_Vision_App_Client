@@ -9,10 +9,16 @@ const { width, height } = Dimensions.get('window');
 const SettingsScreen = () => {
     const navigation = useNavigation();
 
-    const handleArrow = ()=>{
-       navigation.goBack();
-    };
 
+
+const handleContactSection = ()=>{
+    navigation.navigate('Contact')
+};
+
+
+const handlePrivacySection = ()=>{
+    navigation.navigate('PrivacyPolicy');
+};
    
     const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
 
@@ -20,7 +26,7 @@ const SettingsScreen = () => {
         <View style={[styles.container, { backgroundColor: isDarkTheme ? '#000' : '#F5F5F5' }]}>
             <View style={[styles.firstContainer, { backgroundColor: isDarkTheme ? '#333' : '#55AD9B' }]}>
                 <View style={styles.arrowContainer}>
-                    <Pressable onPress={() => navigation.goBack()} style={[styles.circle, { borderColor: isDarkTheme ? '#333' : '#fff' }]}>
+                    <Pressable onPress={() => navigation.goBack()} style={styles.circle}>
                         <Image source={require('../assets/Arrowback.png')} style={styles.arrowIcon} />
                     </Pressable>
                     <Text style={[styles.settingsText, { color: isDarkTheme ? '#fff' : '#000' }]}>Settings</Text>
@@ -31,11 +37,11 @@ const SettingsScreen = () => {
                     <Text style={[styles.menuItemText, { color: isDarkTheme ? '#fff' : '#000' }]}>Theme</Text>
                 </Pressable>
                 <View style={[styles.horizontalLine, { borderColor: isDarkTheme ? '#555' : '#CACACA' }]} />
-                <Pressable style={styles.menuItemContainer}>
+                <Pressable style={styles.menuItemContainer} onPress={handlePrivacySection}>
                     <Text style={[styles.menuItemText, { color: isDarkTheme ? '#fff' : '#000' }]}>Privacy Policy</Text>
                 </Pressable>
                 <View style={[styles.horizontalLine, { borderColor: isDarkTheme ? '#555' : '#CACACA' }]} />
-                <Pressable style={styles.menuItemContainer}>
+                <Pressable style={styles.menuItemContainer} onPress={handleContactSection}>
                     <Text style={[styles.menuItemText, { color: isDarkTheme ? '#fff' : '#000' }]}>Contact us</Text>
                 </Pressable>
                 <View style={[styles.horizontalLine, { borderColor: isDarkTheme ? '#555' : '#CACACA' }]} />
@@ -74,6 +80,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
+        borderColor:'#fff'
     },
     arrowIcon: {
         width: '60%',

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, Modal, Alert } from 'react-native'
-import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react'
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
@@ -9,6 +9,9 @@ const Home = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
+  const profileImage = useSelector(state =>state.profile.profileImage);
+
+
 
   const handleModal = () => {
     setModalVisible(!modalVisible);
@@ -57,7 +60,7 @@ const Home = () => {
     <View style={[styles.container, { backgroundColor: isDarkTheme ? '#000' : '#fff' }]}>
       <Image source={require('../assets/CurveImage.png')} style={styles.topbarImage} />
       <View style={styles.profileContainer}>
-        <Image source={require('../assets/ProfilePic.jpeg')} style={styles.profilePic} />
+        <Image source={profileImage} style={styles.profilePic} />
         <View style={styles.infoContainer}>
           <Text style={[styles.name, { color: isDarkTheme ? '#fff' : '#000' }]}>John Doe</Text>
           <Pressable style={[styles.proButton, { backgroundColor: isDarkTheme ? '#333' : '#95D2B3', borderColor: isDarkTheme ? '#222' : '#D8EFD3' }]}>
