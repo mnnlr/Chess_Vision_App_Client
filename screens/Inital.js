@@ -1,8 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
 import img1 from '../assets/background.jpeg';  // Ensure this path is correct
+import { useNavigation } from '@react-navigation/native';
 
 const Inital = () => {
+
+  const navigation = useNavigation();
+
+  const handleSignup = ()=>{
+    navigation.navigate('Register')
+  }
+
+  const handleSignIn = ()=>{
+    navigation.navigate('Login')
+  }
   return (
     <View style={styles.container}>
       <ImageBackground source={img1} style={styles.background}>
@@ -17,8 +28,16 @@ const Inital = () => {
             <Text style={styles.texts}> </Text>
           </View>
           <View style = {{position:'absolute',bottom:10,alignSelf:'center',justifyContent:'center',alignItems:'center',}}>
-         <View style = {{backgroundColor : "#D8EFD3",borderRadius:10,padding:10,marginRight:10,paddingHorizontal : 90 }}><Text style = {{color:'black',fontSize:20,fontWeight:'bold',marginBottom:10}}>Sign up</Text></View>
-         <View style = {{backgroundColor : "#D8EFD3",borderRadius:10,padding:10,marginRight:10,paddingHorizontal : 90, marginTop : 10 }}><Text style = {{color:'black',fontSize:20,fontWeight:'bold',marginBottom:10, }}>Sign in</Text></View>
+         <Pressable onPress={handleSignup}
+         style = {{backgroundColor : "#D8EFD3",borderRadius:10,padding:10,marginRight:10,paddingHorizontal : 90 }}><Text style = {{color:'black',fontSize:20,fontWeight:'bold',marginBottom:10}}>
+          Sign up
+          </Text>
+          </Pressable>
+         <Pressable onPress={handleSignIn}
+         style = {{backgroundColor : "#D8EFD3",borderRadius:10,padding:10,marginRight:10,paddingHorizontal : 90, marginTop : 10 }}><Text style = {{color:'black',fontSize:20,fontWeight:'bold',marginBottom:10, }}>
+          Sign in
+          </Text>
+          </Pressable>
           </View>
         </View>
       </ImageBackground>

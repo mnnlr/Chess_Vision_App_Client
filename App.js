@@ -33,7 +33,7 @@ function AppNavigator() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Game">
+        <Stack.Navigator initialRouteName="Initial">
           <Stack.Screen name="Home" options={{ headerShown: false }} component={Home} />
           <Stack.Screen name="Login" options={{ headerShown: false }} component={Login} />
           <Stack.Screen name="Register" options={{ headerShown: false }} component={Register} />

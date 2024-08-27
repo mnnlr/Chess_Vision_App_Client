@@ -1,7 +1,7 @@
 // ChessGame.js
 import React, { useState, useEffect } from 'react';
 import {Chess} from 'chess.js';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, Button } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, Button,Image } from 'react-native';
 
 const ChessGame = () => {
     const [game, setGame] = useState(new Chess());
@@ -21,7 +21,8 @@ const ChessGame = () => {
     // Define the function to update the board state
     const updateBoard = () => {
       const boardData = game.board().map(row =>
-        row.map(piece => (piece ? piece.type.toUpperCase() : ''))
+        // row.map(piece => (piece ? piece.type.toUpperCase() : ''))
+        row.map(piece => (piece ? piece : ''))
       );
       setBoard(boardData);
     };
@@ -55,6 +56,28 @@ const ChessGame = () => {
         setSelectedSquare(square);
       }
     };
+
+
+    const renderPiece = (piece) => {
+      if (!piece) return null;
+
+      const pieceImages = {
+        p: require('../assets/bp.png'),
+        r: require('../assets/br.png'),
+        n: require('../assets/bn.png'),
+        b: require('../assets/bb.png'),
+        q: require('../assets/bq.png'),
+        k: require('../assets/bk.png'),
+        P: require('../assets/wp.png'),
+        R: require('../assets/wr.png'),
+        N: require('../assets/wn.png'),
+        B: require('../assets/wb.png'),
+        Q: require('../assets/wq.png'),
+        K: require('../assets/wk.png'),
+      };
+
+      return <Image source={pieceImages[piece.type]} style={styles.piece} />;
+    };
   
     // Define the function to render each square on the board
     const renderSquare = (row, col) => {
@@ -71,7 +94,8 @@ const ChessGame = () => {
           ]}
           onPress={() => handlePressSquare(row, col)}
         >
-          <Text style={styles.piece}>{piece}</Text>
+            {renderPiece(piece)}
+          {/* <Text style={styles.piece}>{piece}</Text> */}
         </TouchableOpacity>
       );
     };
@@ -113,6 +137,11 @@ const ChessGame = () => {
     },
     highlightedSquare: {
       backgroundColor: '#d3d3d3',
+    },
+    piece: {
+      width: 40,
+      height: 40,
+      resizeMode: 'contain',
     },
   });
   

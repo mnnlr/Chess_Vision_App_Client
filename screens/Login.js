@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Pressable, Image } from 'react-native';
 import React from 'react';
 import WaveInput from '../componenet/WaveInput';
 import { useNavigation } from '@react-navigation/native';
@@ -18,9 +18,13 @@ const Login = () => {
               <WaveInput label="Email" />
               <WaveInput label="Password" />
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
+            <Pressable onPress={() => navigation.navigate('Home')} style={styles.button}>
               <Text style={styles.buttonText}>Sign in</Text>
-            </TouchableOpacity>
+            </Pressable>
+          <Pressable style={styles.googleButton}>
+           <Image source={require('../assets/GoogleIcon.png')} style={styles.googleIcon}/>
+           <Text style={styles.googleButtonText}>Sign in with Google</Text>
+          </Pressable>
           </View>
         </View>
       );
@@ -101,6 +105,29 @@ const Login = () => {
         color: 'black',
         fontSize: 20,
         fontWeight: 'bold',
+      },
+      googleButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        backgroundColor: '#D8EFD3',
+        borderRadius: 10,
+        padding: 10,
+        marginTop: 10,
+        width: '100%',
+        marginTop:'5%'
+      },
+      googleIcon: {
+        width: 24,
+        height: 24,
+       
+      },
+      googleButtonText: {
+        color: '#000',
+        fontSize: 18,
+        fontWeight: '500',
+        textAlign:'center',
+        marginRight:'10%'
       },
     });
     

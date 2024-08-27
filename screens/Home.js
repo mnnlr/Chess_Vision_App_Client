@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, Modal, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
@@ -18,9 +18,16 @@ const Home = () => {
   };
 
 
+  const handleNavigation =(screen)=>{
+    setModalVisible(false);
+    navigation.navigate(screen);
+  }
+
+
   //Setting Screen
   const handleSettingScreen = () => {
-    navigation.navigate('Setting');
+    // navigation.navigate('Setting');
+    handleNavigation('Setting');
   }
 
 
@@ -37,7 +44,7 @@ const Home = () => {
         },
         {
           text: "Ok",
-          onPress: () => navigation.navigate('Login')
+          onPress: () => handleNavigation('Login')
         }
       ]
     );
@@ -45,16 +52,25 @@ const Home = () => {
 
   //Profile Screen
   const handleProfileSection = () => {
-    navigation.navigate('Profile');
+    // navigation.navigate('Profile');
+    handleNavigation('Profile');
   }
 
   const handleGameScreen = ()=>{
-    navigation.navigate("Game");
+    // navigation.navigate("Game");
+    handleNavigation("Game")
   };
 
   const handlePersonAddSection = ()=>{
-    navigation.navigate('PersonAddSection');
+    // navigation.navigate('PersonAddSection');
+    handleNavigation("PersonAddSection")
   }
+
+  useFocusEffect(
+    React.useCallback(()=>{
+      return () =>setModalVisible(false);
+    },[])
+  )
 
   return (
     <View style={[styles.container, { backgroundColor: isDarkTheme ? '#000' : '#fff' }]}>
