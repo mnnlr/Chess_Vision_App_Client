@@ -3,12 +3,16 @@ import { Camera } from "expo-camera";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Dimensions, Pressable, Image, Modal } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from "react-redux";
+import { setProfileImage } from "../redux/profileSlice";
 
 const { width, height } = Dimensions.get('window');
 const ProfileScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [modalVisible, setModalVisible] = useState(false);
-    const [profileImage, setProfileImage] = useState(require('../assets/ProfilePic.jpeg'))
+    const profileImage = useSelector(state =>state.profile.profileImage);
+
 
 
     const openModal = () => {
@@ -30,7 +34,7 @@ const ProfileScreen = () => {
                 quality: 1
             });
             if (!result.canceled) {
-                setProfileImage({ uri: result.assets[0].uri });
+                dispatch(setProfileImage({uri:result.assets[0].uri}));
             }
         } else {
             alert('Camera permision is required to take a photo')
@@ -48,7 +52,7 @@ const ProfileScreen = () => {
                 quality: 1
             });
             if (!result.canceled) {
-                setProfileImage({ uri: result.assets[0].uri })
+                dispatch(setProfileImage({uri:result.assets[0].uri}));
             }
         } else {
             alert("Gallery permission is required to select an image")
@@ -56,7 +60,7 @@ const ProfileScreen = () => {
     };
     // Back Arrow
     const handleArrow = () => {
-        navigation.navigate('Home');
+        navigation.navigate('Home', {updateProfileImage:profileImage});
     }
 
     const stats = [

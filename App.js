@@ -16,9 +16,12 @@ import Background from './chessBoard/Background';
 import Board from './chessBoard/Board';
 import Piece from './chessBoard/Piece';
 import ProfileScreen from './screens/ProfileScreen';
+import ContactusScreen from './screens/ContactusScreen';
+import PrivacyPolicyScreen from './screens/PrivacyPolicyScreen';
+import {enableScreens} from 'react-native-screens'
 import ChessGame from './screens/ChessGame';
 
-
+enableScreens()
 
 
 const Stack = createStackNavigator();
@@ -30,7 +33,7 @@ function AppNavigator() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Game">
+        <Stack.Navigator initialRouteName="Initial">
           <Stack.Screen name="Home" options={{ headerShown: false }} component={Home} />
           <Stack.Screen name="Login" options={{ headerShown: false }} component={Login} />
           <Stack.Screen name="Register" options={{ headerShown: false }} component={Register} />
@@ -40,9 +43,11 @@ function AppNavigator() {
           <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name='Game' component={ChessGame} options={{ headerShown: false }} />
           <Stack.Screen name='PersonAddSection' component={PersonAddScreen} options={{ headerShown: false }} />
-          {/* <Stack.Screen name='Background' component={Background}/>
-        <Stack.Screen name='Board' component={Board}/>
-        <Stack.Screen name='Piece' component={Piece}/> */}
+          <Stack.Screen name='Background' component={Background} />
+          <Stack.Screen name='Board' component={Board} />
+          <Stack.Screen name='Piece' component={Piece} />
+          <Stack.Screen name='Contact' component={ContactusScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='PrivacyPolicy' component={PrivacyPolicyScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
         <StatusBar style={isDarkTheme ? 'light' : 'dark'} />
@@ -52,6 +57,8 @@ function AppNavigator() {
 }
 
 export default function App() {
+  enableScreens()
+
   return (
     <Provider store={store}>
       <AppNavigator />
