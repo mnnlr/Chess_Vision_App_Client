@@ -1,180 +1,126 @@
-// ChessGame.js
 import React, { useState, useEffect } from 'react';
-import {Chess} from 'chess.js';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, Button,Image } from 'react-native';
-
+import { Chess } from 'chess.js';
+import { View, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 
 const ChessGame = () => {
-<<<<<<< HEAD
   const [game, setGame] = useState(new Chess());
   const [board, setBoard] = useState(generateInitialBoard());
   const [highlightedSquares, setHighlightedSquares] = useState([]);
   const [selectedSquare, setSelectedSquare] = useState(null);
+  const [turn, setTurn] = useState('w');
 
   useEffect(() => {
     updateBoard();
   }, [game]);
 
-  // Define the function to generate the initial board
   function generateInitialBoard() {
-    return Array(8).fill(null).map(() => Array(8).fill(''));
+    return Array(8).fill(null).map(() => Array(8).fill(null));
   }
 
-  // Define the function to update the board state
   const updateBoard = () => {
     const boardData = game.board().map(row =>
-      row.map(piece => (piece ? piece.type.toUpperCase() : ''))
+      row.map(piece => piece)
     );
     setBoard(boardData);
+    setTurn(game.turn());
   };
 
-  // Define the function to highlight possible moves
   const highlightMoves = (square) => {
     const moves = game.moves({ square, verbose: true });
     const highlights = moves.map(move => move.to);
     setHighlightedSquares(highlights);
   };
 
-  // Define the function to handle the press event on a square
   const handlePressSquare = (row, col) => {
     const square = `${String.fromCharCode(97 + col)}${8 - row}`;
     
     if (selectedSquare) {
+      if (selectedSquare === square) {
+        setSelectedSquare(null);
+        setHighlightedSquares([]);
+        return;
+      }
+
       const move = {
         from: selectedSquare,
         to: square,
+        promotion: 'q', // Always promote to queen for simplicity
       };
-      const result = game.move(move);
-      if (result) {
-        updateBoard();
-        setHighlightedSquares([]);
-        setSelectedSquare(null);
-=======
-    const [game, setGame] = useState(new Chess());
-    const [board, setBoard] = useState(generateInitialBoard());
-    const [highlightedSquares, setHighlightedSquares] = useState([]);
-    const [selectedSquare, setSelectedSquare] = useState(null);
-  
-    useEffect(() => {
-      updateBoard();
-    }, [game]);
-  
-    // Define the function to generate the initial board
-    function generateInitialBoard() {
-      return Array(8).fill(null).map(() => Array(8).fill(''));
-    }
-  
-    // Define the function to update the board state
-    const updateBoard = () => {
-      const boardData = game.board().map(row =>
-        // row.map(piece => (piece ? piece.type.toUpperCase() : ''))
-        row.map(piece => (piece ? piece : ''))
-      );
-      setBoard(boardData);
-    };
-  
-    // Define the function to highlight possible moves
-    const highlightMoves = (square) => {
-      const moves = game.moves({ square, verbose: true });
-      const highlights = moves.map(move => move.to);
-      setHighlightedSquares(highlights);
-    };
-  
-    // Define the function to handle the press event on a square
-    const handlePressSquare = (row, col) => {
-      const square = `${String.fromCharCode(97 + col)}${8 - row}`;
-      
-      if (selectedSquare) {
-        const move = {
-          from: selectedSquare,
-          to: square,
-        };
+
+      try {
         const result = game.move(move);
         if (result) {
           updateBoard();
           setHighlightedSquares([]);
           setSelectedSquare(null);
+          
+          if (game.isGameOver()) {
+            if (game.isCheckmate()) {
+              Alert.alert('Checkmate!', `${game.turn() === 'w' ? 'Black' : 'White'} wins!`);
+            } else if (game.isDraw()) {
+              Alert.alert('Draw!', 'The game is a draw.');
+            }
+          }
         } else {
-          Alert.alert('Invalid Move');
+          Alert.alert('Invalid Move', 'Please try another move.');
         }
->>>>>>> a57d917ffc9a0533d0740e4e589d1510396603d1
-      } else {
-        Alert.alert('Invalid Move');
+      } catch (error) {
+        console.error('Move error:', error);
+        Alert.alert('Invalid Move', 'Please try another move.');
       }
-<<<<<<< HEAD
     } else {
-      highlightMoves(square);
-      setSelectedSquare(square);
+      const piece = game.get(square);
+      if (piece && piece.color === turn) {
+        setSelectedSquare(square);
+        highlightMoves(square);
+      }
     }
   };
 
-  // Define the function to render each square on the board
+  const renderPiece = (piece) => {
+    if (!piece) return null;
+  
+    const pieceImages = {
+      'p': require('../assets/bp.png'),
+      'r': require('../assets/br.png'),
+      'n': require('../assets/bn.png'),
+      'b': require('../assets/bb.png'),
+      'q': require('../assets/bq.png'),
+      'k': require('../assets/bk.png'),
+      'P': require('../assets/wp.png'),
+      'R': require('../assets/wr.png'),
+      'N': require('../assets/wn.png'),
+      'B': require('../assets/wb.png'),
+      'Q': require('../assets/wq.png'),
+      'K': require('../assets/wk.png'),
+    };
+  
+    const pieceKey = piece.color === 'w' ? piece.type.toUpperCase() : piece.type.toLowerCase();
+    
+    return <Image source={pieceImages[pieceKey]} style={styles.piece} />;
+  };
+
   const renderSquare = (row, col) => {
     const piece = board[row][col];
     const square = `${String.fromCharCode(97 + col)}${8 - row}`;
     const isHighlighted = highlightedSquares.includes(square);
-=======
-    };
+    const isSelected = selectedSquare === square;
 
-
-    const renderPiece = (piece) => {
-      if (!piece) return null;
-
-      const pieceImages = {
-        p: require('../assets/bp.png'),
-        r: require('../assets/br.png'),
-        n: require('../assets/bn.png'),
-        b: require('../assets/bb.png'),
-        q: require('../assets/bq.png'),
-        k: require('../assets/bk.png'),
-        P: require('../assets/wp.png'),
-        R: require('../assets/wr.png'),
-        N: require('../assets/wn.png'),
-        B: require('../assets/wb.png'),
-        Q: require('../assets/wq.png'),
-        K: require('../assets/wk.png'),
-      };
-
-      return <Image source={pieceImages[piece.type]} style={styles.piece} />;
-    };
-  
-    // Define the function to render each square on the board
-    const renderSquare = (row, col) => {
-      const piece = board[row][col];
-      const square = `${String.fromCharCode(97 + col)}${8 - row}`;
-      const isHighlighted = highlightedSquares.includes(square);
-      return (
-        <TouchableOpacity
-          key={`${row}-${col}`}
-          style={[
-            styles.square,
-            { backgroundColor: (row + col) % 2 === 0 ? '#f0d9b5' : '#b58863' },
-            isHighlighted && styles.highlightedSquare
-          ]}
-          onPress={() => handlePressSquare(row, col)}
-        >
-            {renderPiece(piece)}
-          {/* <Text style={styles.piece}>{piece}</Text> */}
-        </TouchableOpacity>
-      );
-    };
-  
->>>>>>> a57d917ffc9a0533d0740e4e589d1510396603d1
     return (
       <TouchableOpacity
         key={`${row}-${col}`}
         style={[
           styles.square,
           { backgroundColor: (row + col) % 2 === 0 ? '#f0d9b5' : '#b58863' },
-          isHighlighted && styles.highlightedSquare
+          isHighlighted && styles.highlightedSquare,
+          isSelected && styles.selectedSquare
         ]}
         onPress={() => handlePressSquare(row, col)}
       >
-        <Text style={styles.piece}>{piece}</Text>
+        {renderPiece(piece)}
       </TouchableOpacity>
     );
   };
-<<<<<<< HEAD
 
   return (
     <View style={styles.container}>
@@ -194,62 +140,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f0f0f0',
   },
   board: {
     flexDirection: 'column',
-    alignSelf: 'center',
+    borderWidth: 2,
+    borderColor: '#000',
   },
   row: {
     flexDirection: 'row',
   },
   square: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  piece: {
-    fontSize: 24,
-  },
   highlightedSquare: {
-    backgroundColor: '#d3d3d3',
+    backgroundColor: 'rgba(0, 255, 0, 0.3)',
+  },
+  selectedSquare: {
+    backgroundColor: 'rgba(255, 255, 0, 0.3)',
+  },
+  piece: {
+    width: 35,
+    height: 35,
+    resizeMode: 'contain',
   },
 });
 
 export default ChessGame;
-=======
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    board: {
-      flexDirection: 'column',
-      alignSelf: 'center',
-    },
-    row: {
-      flexDirection: 'row',
-    },
-    square: {
-      width: 50,
-      height: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    piece: {
-      fontSize: 24,
-    },
-    highlightedSquare: {
-      backgroundColor: '#d3d3d3',
-    },
-    piece: {
-      width: 40,
-      height: 40,
-      resizeMode: 'contain',
-    },
-  });
-  
-  export default ChessGame;
->>>>>>> a57d917ffc9a0533d0740e4e589d1510396603d1
