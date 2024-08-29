@@ -1,9 +1,30 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import WaveInput from '../componenet/WaveInput';
 import { useNavigation } from '@react-navigation/native';
 const Register = () => {
   const navigation = useNavigation(); 
+
+  const[name,setName] = useState('');
+  const [email,setEmail] = useState('');
+  const[password,setPassword] = useState('');
+  const[isButtonEnabled, setIsButtonEnabled] =useState(false)
+
+  useEffect(()=>{
+   
+    if(name.length > 0 && validateEmail(email) && password.length >=6 ){
+      setIsButtonEnabled(true);
+    } else{
+      setIsButtonEnabled(false);
+    }
+  },[name,email,password]);
+
+  const validateEmail =(email) =>{
+    // const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.gradientContainer}>
@@ -14,11 +35,14 @@ const Register = () => {
       <View style={styles.content}>
         <Text style={styles.text}>Create an Account</Text>
         <View style={styles.inputContainer}>
-          <WaveInput label="Name" />
-          <WaveInput label="Email" />
-          <WaveInput label="Password" />
+          <WaveInput label="Name" value={name} onChangeText={setName}/>
+          <WaveInput label="Email"  value={email} onChangeText={setEmail}/>
+          <WaveInput label="Password" value={password} onChangeText={setPassword} />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate('Home')} 
+        style={[styles.button, !isButtonEnabled && { backgroundColor: 'gray' }]}
+        disabled={!isButtonEnabled}>
           <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
       </View>

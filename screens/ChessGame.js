@@ -1,7 +1,7 @@
 // ChessGame.js
 import React, { useState, useEffect } from 'react';
 import {Chess} from 'chess.js';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, Button,Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, Button,Image} from 'react-native';
 
 const ChessGame = () => {
     const [game, setGame] = useState(new Chess());
@@ -43,6 +43,11 @@ const ChessGame = () => {
           from: selectedSquare,
           to: square,
         };
+
+        //check for pawn promotion code with me
+        if(game.get(selectedSquare).type === 'p' && ((row === 0 && game.turn() === 'w') || (row === 7 && game.turn() === 'b'))){
+           move.promotion = 'q';
+        }
         const result = game.move(move);
         if (result) {
           updateBoard();
@@ -50,10 +55,15 @@ const ChessGame = () => {
           setSelectedSquare(null);
         } else {
           Alert.alert('Invalid Move');
+          setHighlightedSquares([]);
+          setSelectedSquare(null); 
         }
       } else {
-        highlightMoves(square);
-        setSelectedSquare(square);
+        if(board[row][col] !== ''){
+          highlightMoves(square);
+          setSelectedSquare(square);
+        }
+       
       }
     };
 
@@ -75,9 +85,12 @@ const ChessGame = () => {
         Q: require('../assets/wq.png'),
         K: require('../assets/wk.png'),
       };
-
-      return <Image source={pieceImages[piece.type]} style={styles.piece} />;
+      return <Image source={pieceImages[piece.color === 'w' ? piece.type.toUpperCase() : piece.type]} style={styles.piece} />;
+      // return <Image source={pieceImages[piece.type]} style={styles.piece} />;
     };
+
+
+    
   
     // Define the function to render each square on the board
     const renderSquare = (row, col) => {
@@ -95,10 +108,11 @@ const ChessGame = () => {
           onPress={() => handlePressSquare(row, col)}
         >
             {renderPiece(piece)}
-          {/* <Text style={styles.piece}>{piece}</Text> */}
         </TouchableOpacity>
       );
     };
+
+    
   
     return (
       <View style={styles.container}>
@@ -132,9 +146,7 @@ const ChessGame = () => {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    piece: {
-      fontSize: 24,
-    },
+
     highlightedSquare: {
       backgroundColor: '#d3d3d3',
     },

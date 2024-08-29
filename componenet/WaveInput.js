@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Animated, TextInput, View, StyleSheet, Text } from 'react-native';
 
-const WaveInput = ({ label }) => {
+const WaveInput = ({ label,value,onChangeText }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [text, setText] = useState('');
   const labelAnimation = useRef(new Animated.Value(0)).current;
@@ -45,8 +45,8 @@ const WaveInput = ({ label }) => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        value={text}
-        onChangeText={setText}
+        value={value}
+        onChangeText={onChangeText}
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder=""
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16,
-    padding: 10,
+    padding: 20,
     paddingLeft: 5,
     width: '100%',
     borderBottomWidth: 1,
