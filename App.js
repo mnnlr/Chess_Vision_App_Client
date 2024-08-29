@@ -18,10 +18,10 @@ import Piece from './chessBoard/Piece';
 import ProfileScreen from './screens/ProfileScreen';
 import ContactusScreen from './screens/ContactusScreen';
 import PrivacyPolicyScreen from './screens/PrivacyPolicyScreen';
-
+import {enableScreens} from 'react-native-screens'
 import ChessGame from './screens/ChessGame';
 
-
+enableScreens()
 
 
 const Stack = createStackNavigator();
@@ -57,6 +57,8 @@ function AppNavigator() {
 }
 
 export default function App() {
+  enableScreens()
+
   return (
     <Provider store={store}>
       <AppNavigator />
