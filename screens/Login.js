@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Pressable, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Pressable, Image, KeyboardAvoidingView, ScrollView ,Platform, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import WaveInput from '../componenet/WaveInput';
 import { useNavigation } from '@react-navigation/native';
@@ -6,47 +6,56 @@ const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const[isButtonEnabled,setIsButtonEnabled] =useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
 
-  useEffect(()=>{
-    if(validateEmail(email) && password.length >=6){
+  useEffect(() => {
+    if (validateEmail(email) && password.length >= 6) {
       setIsButtonEnabled(true);
     } else {
       setIsButtonEnabled(false);
     }
-  },[email,password]);
+  }, [email, password]);
 
-  const validateEmail = (email) =>{
+  const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.gradientContainer}>
-        <View style={styles.gradientCircle} />
-        <View style={styles.gradientCircle2} />
-        <View style={styles.gradientCircle3} />
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.text}>Login to your Account</Text>
-        <View style={styles.inputContainer}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0} >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.container}>
+          <View style={styles.gradientContainer}>
+            <View style={styles.gradientCircle} />
+            <View style={styles.gradientCircle2} />
+            <View style={styles.gradientCircle3} />
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.text}>Login to your Account</Text>
+            <View style={styles.inputContainer}>
 
-          <WaveInput label="Email" value={email} onChangeText={setEmail}/>
-          <WaveInput label="Password" value={password} onChangeText={setPassword}/>
+              <WaveInput label="Email" value={email} onChangeText={setEmail} />
+              <WaveInput label="Password" value={password} onChangeText={setPassword} />
+            </View>
+            <Pressable
+              onPress={() => navigation.navigate('Home')}
+              style={[styles.button, !isButtonEnabled && { backgroundColor: 'gray' }]}
+              disabled={!isButtonEnabled}>
+              <Text style={styles.buttonText}>Sign in</Text>
+            </Pressable>
+            <Pressable style={styles.googleButton}>
+              <Image source={require('../assets/GoogleIcon.png')} style={styles.googleIcon} />
+              <Text style={styles.googleButtonText}>Sign in with Google</Text>
+            </Pressable>
+          </View>
         </View>
-        <Pressable 
-        onPress={() => navigation.navigate('Home')} 
-        style={[styles.button, !isButtonEnabled && { backgroundColor: 'gray' }]}
-        disabled={!isButtonEnabled}>
-          <Text style={styles.buttonText}>Sign in</Text>
-        </Pressable>
-        <Pressable style={styles.googleButton}>
-          <Image source={require('../assets/GoogleIcon.png')} style={styles.googleIcon} />
-          <Text style={styles.googleButtonText}>Sign in with Google</Text>
-        </Pressable>
-      </View>
-    </View>
+      </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
