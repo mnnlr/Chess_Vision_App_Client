@@ -20,6 +20,8 @@ import ContactusScreen from './screens/ContactusScreen';
 import PrivacyPolicyScreen from './screens/PrivacyPolicyScreen';
 import {enableScreens} from 'react-native-screens'
 import ChessGame from './screens/ChessGame';
+import EbookUploadScreen from './screens/EbookUploadScreen';
+import ImagePickerScreen from './screens/ImagePickerScreen';
 
 enableScreens()
 
@@ -48,6 +50,8 @@ function AppNavigator() {
           <Stack.Screen name='Piece' component={Piece} />
           <Stack.Screen name='Contact' component={ContactusScreen} options={{ headerShown: false }} />
           <Stack.Screen name='PrivacyPolicy' component={PrivacyPolicyScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='EbookReader' component={EbookUploadScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='UploadScreen' component={ImagePickerScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
         <StatusBar style={isDarkTheme ? 'light' : 'dark'} />

@@ -6,6 +6,14 @@
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ]
+    ],
     "fonts": [
       {
         "Holtwood One SC": "./assets/fonts/HoltwoodOneSC-Regular.ttf"

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, Modal, Alert } from 'react-native'
+import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, Modal, Alert, Linking } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -26,7 +26,6 @@ const Home = () => {
 
   //Setting Screen
   const handleSettingScreen = () => {
-    // navigation.navigate('Setting');
     handleNavigation('Setting');
   }
 
@@ -52,18 +51,19 @@ const Home = () => {
 
   //Profile Screen
   const handleProfileSection = () => {
-    // navigation.navigate('Profile');
     handleNavigation('Profile');
   }
 
   const handleGameScreen = ()=>{
-    // navigation.navigate("Game");
     handleNavigation("Game")
   };
 
   const handlePersonAddSection = ()=>{
-    // navigation.navigate('PersonAddSection');
-    handleNavigation("PersonAddSection")
+    handleNavigation("UploadScreen")
+  }
+
+  const handleEbookReader = ()=>{
+    handleNavigation("EbookReader")
   }
 
   useFocusEffect(
@@ -100,6 +100,9 @@ const Home = () => {
             </Pressable>
             <Pressable style={styles.menuItem} onPress={handleProfileSection}>
               <Text style={[styles.menuText, { color: isDarkTheme ? '#fff' : '#000' }]}>Profile</Text>
+            </Pressable>
+            <Pressable style={styles.menuItem} onPress={handleEbookReader}>
+              <Text style={[styles.menuText, { color: isDarkTheme ? '#fff' : '#000' }]}>eBook Reader</Text>
             </Pressable>
             <Pressable onPress={() => navigation.navigate('Login')} style={styles.menuItem}>
               <Text style={[styles.menuText, { color: isDarkTheme ? '#fff' : '#000' }]}>LogOut</Text>
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
   proButton: {
     marginTop: width * 0.02,
     width: width * 0.22,
-    height: width * 0.06,
+    height: width * 0.07,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
