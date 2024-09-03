@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Text, Platform, ScrollView } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet, Text, Platform, ScrollView,Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 const ImagePickerScreen = () => {
@@ -14,6 +14,15 @@ const ImagePickerScreen = () => {
     }
   };
 
+
+  const validateChessboard = async (imageUri) => {
+    if (imageUri.toLowerCase().includes('chessboard')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -21,9 +30,16 @@ const ImagePickerScreen = () => {
     });
 
     if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
-    }
-  };
+      const isValid = await validateChessboard(result.assets[0].uri)
+      if(isValid){
+        setImageUri(result.assets[0].uri);
+      } else{
+        Alert.alert('Invalid Image', 'Could not find a chessboard in the selected image.');
+      }
+      }
+      
+    };
+  
 
   const takePhoto = async () => {
     const result = await ImagePicker.launchCameraAsync({
@@ -31,9 +47,16 @@ const ImagePickerScreen = () => {
     });
 
     if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
+      const isValid = await validateChessboard(result.assets[0].uri);
+      if(isValid){
+        setImageUri(result.assets[0].uri);
+      } else {
+        Alert.alert('Invalid Image', 'Could not find a chessboard in the selected image.');
+      }
+      }
+      
     }
-  };
+  
 
   useEffect(() => {
     requestPermission();
@@ -41,16 +64,16 @@ const ImagePickerScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-     
-      
+
+
       <TouchableOpacity style={styles.button} onPress={takePhoto}>
         <Text style={styles.buttonText}>Take Photo</Text>
       </TouchableOpacity>
-      
+
       <TouchableOpacity style={styles.button} onPress={pickImage}>
         <Text style={styles.buttonText}>Choose from Gallery</Text>
       </TouchableOpacity>
-      
+
       {imageUri && (
         <Image
           source={{ uri: imageUri }}
