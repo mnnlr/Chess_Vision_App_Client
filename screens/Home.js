@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Dimensions, Pressable, ImageBackground, 
 import React, { useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { useFonts } from 'expo-font';
 
 const { width, height } = Dimensions.get('window');
 
@@ -10,6 +11,8 @@ const Home = () => {
   const navigation = useNavigation();
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
   const profileImage = useSelector(state =>state.profile.profileImage);
+
+ 
 
 
 
@@ -71,6 +74,13 @@ const Home = () => {
       return () =>setModalVisible(false);
     },[])
   )
+
+  const [fontLoaded] = useFonts({
+    'HindSiliguri':require('../assets/fonts/HindSiliguri-Regular.ttf')
+  });
+  if(!fontLoaded){
+    return null
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: isDarkTheme ? '#000' : '#fff' }]}>
@@ -177,6 +187,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '400',
     textAlign: 'center',
+    fontFamily:'HindSiliguri'
   },
   menuCircle: {
     marginLeft: '35%',
